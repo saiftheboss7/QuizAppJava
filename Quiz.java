@@ -102,24 +102,24 @@ public class Quiz extends JFrame implements ActionListener {
                 "A"
         );
         probList[2] = new Problem(
-                "Where are you headed?",
-                "To chop the mightiest tree with a herring",
-                "To castle St. Aaaaaaaaargh",
-                "To Swamp Castle",
-                "B"
+                "Who is the captain of Bangladesh national team?",
+                "Mashrafe",
+                "Taskin",
+                "Shoumya",
+                "A"
         );
         probList[3] = new Problem(
-                "What is your favorite color?",
+                "What is the color of a Banana?",
                 "Red",
-                "Green",
-                "Yellow. No, blue.",
-                "C"
+                "Yellow",
+                "Blue.",
+                "B"
         );
         probList[4] = new Problem(
-                "What is the airspeed velocity of an unladen swallow?",
-                "42 beats per second",
-                "10 miles per hour",
-                "African or European?",
+                "What is the population of Bangladesh?",
+                "8cr",
+                "10cr",
+                "15cr",
                 "C"
         );
     } // end loadProblems
