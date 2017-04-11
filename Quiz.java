@@ -24,11 +24,12 @@ public class Quiz extends JFrame implements ActionListener {
     int counter = 0;
     Problem[] probList = new Problem[5];
     public static int correctAnsCounter=0;
+    int questionCount=1;
 
 
 
 
-    public Quiz(){
+    public Quiz(){ //Constructor
         super("Quiz Game");
         setupGUI();
         registerListeners();
@@ -38,38 +39,39 @@ public class Quiz extends JFrame implements ActionListener {
 
     public void setupGUI(){
         //create components
-        JPanel pnlQuestion = new JPanel();
-        lblQuestion = new JLabel("question");
+        JPanel panelQuestions = new JPanel();
+        lblQuestion = new JLabel("question",SwingConstants.CENTER);
+        lblQuestion.setFont(lblQuestion.getFont().deriveFont(18f));
         btnA = new JButton("Answer A");
         btnB = new JButton("Answer B");
         btnC = new JButton("Answer C");
 
-        JPanel pnlControls = new JPanel();
+        JPanel panelControls = new JPanel();
         btnPrev = new JButton("<==");
-        lblCounter = new JLabel("0");
+        lblCounter = new JLabel("1");
         lblOutput = new JLabel("Please click on your answer");
         btnNext = new JButton("==>");
 
         //add components to Panels
-        pnlQuestion.setLayout(new GridLayout(0,1));
-        pnlQuestion.add(lblQuestion);
-        pnlQuestion.add(btnA);
-        pnlQuestion.add(btnB);
-        pnlQuestion.add(btnC);
+        panelQuestions.setLayout(new GridLayout(0,1));
+        panelQuestions.add(lblQuestion);
+        panelQuestions.add(btnA);
+        panelQuestions.add(btnB);
+        panelQuestions.add(btnC);
 
-        pnlControls.setLayout(new FlowLayout());
-        pnlControls.add(btnPrev);
-        pnlControls.add(lblCounter);
-        pnlControls.add(lblOutput);
-        pnlControls.add(btnNext);
+        panelControls.setLayout(new FlowLayout());
+        //panelControls.add(btnPrev);
+        panelControls.add(lblCounter);
+        panelControls.add(lblOutput);
+        panelControls.add(btnNext);
 
         //set up main layout
-        Container mainPanel = this.getContentPane();
-        mainPanel.setLayout(new BorderLayout());
-        mainPanel.add(pnlQuestion, BorderLayout.CENTER);
-        mainPanel.add(pnlControls, BorderLayout.SOUTH);
+        Container mainWindowPanel = this.getContentPane();
+        mainWindowPanel.setLayout(new BorderLayout());
+        mainWindowPanel.add(panelQuestions, BorderLayout.CENTER);
+        mainWindowPanel.add(panelControls, BorderLayout.SOUTH);
 
-        //general housekeeping
+        //UI Customization
         this.setBounds(20,20,500, 300);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -85,7 +87,7 @@ public class Quiz extends JFrame implements ActionListener {
     } // end registerListeners
 
     public void loadProblems(){
-        //load up probList array with data
+        //load up probList array with data. You can add problems with their answers here
 
         probList[0] = new Problem(
                 "What is National Anthem of Bangladesh",
@@ -130,10 +132,13 @@ public class Quiz extends JFrame implements ActionListener {
         //control to appropriate methods
         if (e.getSource() == btnA){
             checkAns("A");
+            nextQuestion();
         } else if (e.getSource() == btnB){
             checkAns("B");
+            nextQuestion();
         } else if (e.getSource() == btnC){
             checkAns("C");
+            nextQuestion();
         } else if (e.getSource() == btnPrev){
             prevQuestion();
         } else if (e.getSource() == btnNext){
@@ -189,13 +194,13 @@ public class Quiz extends JFrame implements ActionListener {
 
     public void updateScreen(){
         //updates screen with current problem
-        lblCounter.setText(String.valueOf(counter));
+        lblCounter.setText("Question: " + Integer.toString(questionCount++));
         Problem p = probList[counter];
         lblQuestion.setText(p.getQuestion());
         btnA.setText(p.getAnsA());
         btnB.setText(p.getAnsB());
         btnC.setText(p.getAnsC());
-        lblOutput.setText("please click on your guess");
+        lblOutput.setText(" Please click on your answer");
     } // end updateScreen
 
 } // end class def

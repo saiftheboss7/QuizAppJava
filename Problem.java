@@ -14,15 +14,15 @@ public class Problem {
         private String ansC;
         private String correct;
 
-        //constructor expects all inputs
-        public Problem (String tQuestion, String tAnsA, String tAnsB,
-                        String tAnsC, String tCorrect){
+        //constructor must have all inputs
+        public Problem (String Question, String AnsA, String AnsB,
+                        String AnsC, String CorrectAns){
             //copy parameters to instance variables
-            question = tQuestion;
-            this.ansA = tAnsA;
-            this.ansB = tAnsB;
-            this.ansC = tAnsC;
-            this.correct = tCorrect;
+            question = Question;
+            this.ansA = AnsA;
+            this.ansB = AnsB;
+            this.ansC = AnsC;
+            this.correct = CorrectAns;
         } // end problem constructor
 
         //all values are read-only with getters
@@ -32,19 +32,19 @@ public class Problem {
 
         String getAnsA(){
             return ansA;
-        } // end getAnsA
+        } // getAnsA
 
         String getAnsB(){
             return ansB;
-        } // end getAnsB
+        } // getAnsB
 
         String getAnsC(){
             return ansC;
-        } // end getAnsC
+        } // getAnsC
 
         String getCorrect(){
             return correct;
-        } // end getCorrect
+        } // end getCorrectAns
 
     // end Problem class def
 }
