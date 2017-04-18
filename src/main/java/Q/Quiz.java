@@ -8,6 +8,11 @@ package Q;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Quiz extends JFrame implements ActionListener {
 
@@ -22,7 +27,7 @@ public class Quiz extends JFrame implements ActionListener {
     JLabel lblOutput;
     JLabel Score;
     int counter = 0;
-    Problem[] probList = new Problem[5];
+    ArrayList<Problem> probList = new ArrayList<Problem>();
     public static int correctAnsCounter=0;
     int questionCount=1;
 
@@ -31,9 +36,9 @@ public class Quiz extends JFrame implements ActionListener {
 
     public Quiz(){ //Constructor
         super("Quiz Game");
+        loadProblems();
         setupGUI();
         registerListeners();
-        loadProblems();
         updateScreen();
     } // end constructor
 
@@ -89,41 +94,27 @@ public class Quiz extends JFrame implements ActionListener {
     public void loadProblems(){
         //load up probList array with data. You can add problems with their answers here
 
-        probList[0] = new Problem(
-                "What is National Anthem of Bangladesh",
-                "Amar Shonar Bangla",
-                "Jana Gana Mana",
-                "Option C",
-                "A"
-        );
-        probList[1] = new Problem(
-                "What is the full meaning of AIUB?",
-                "American International University Bangdesh",
-                "IUBAT",
-                "Brac",
-                "A"
-        );
-        probList[2] = new Problem(
-                "Who is the captain of Bangladesh national team?",
-                "Mashrafe",
-                "Taskin",
-                "Shoumya",
-                "A"
-        );
-        probList[3] = new Problem(
-                "What is the color of a Banana?",
-                "Red",
-                "Yellow",
-                "Blue.",
-                "B"
-        );
-        probList[4] = new Problem(
-                "What is the population of Bangladesh?",
-                "8cr",
-                "10cr",
-                "15cr",
-                "C"
-        );
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/quiz?user=dev&password=dev");
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM quiz");
+
+            while (rs.next()) {
+                Problem p = new Problem(rs.getString("question"), rs.getString("ans_a"), rs.getString("ans_b"), rs.getString("ans_c"), rs.getString("correct_ans").toUpperCase());
+                probList.add(p);
+            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
+
     } // end loadProblems
 
     public void actionPerformed(ActionEvent e){
@@ -153,7 +144,7 @@ public class Quiz extends JFrame implements ActionListener {
     public void checkAns(String guess){
         //See if user's guess is correct and
         //provide appropriate output
-        String correct = probList[counter].getCorrect();
+        String correct = probList.get(counter).getCorrect();
         if (guess.equals(correct)){
 
             lblOutput.setText("Correct Answer!");
@@ -175,7 +166,7 @@ public class Quiz extends JFrame implements ActionListener {
     public void nextQuestion(){
         //go forward one question if possible
         counter++;
-        if (counter >= probList.length){
+        if (counter >= probList.size()){
             //counter = probList.length - 1;
             endScreen();
             System.out.println("End!");
@@ -195,7 +186,7 @@ public class Quiz extends JFrame implements ActionListener {
     public void updateScreen(){
         //updates screen with current problem
         lblCounter.setText("Question: " + Integer.toString(questionCount++));
-        Problem p = probList[counter];
+        Problem p = probList.get(counter);
         lblQuestion.setText(p.getQuestion());
         btnA.setText(p.getAnsA());
         btnB.setText(p.getAnsB());
