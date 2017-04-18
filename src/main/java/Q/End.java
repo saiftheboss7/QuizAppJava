@@ -6,8 +6,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static Q.Quiz.correctAnsCounter;
-
 /**
  * Created by Saif Hassan on 4/10/2017.
  * Email: saiftheboss7@gmail.com
@@ -18,12 +16,12 @@ public class End extends JFrame implements ActionListener {
     JLabel score; //taking two objects of Jlabel
     JButton btnPlayAgain;
 
-    public End(){
+    public End(Integer UserScore){
         Container contentPane = getContentPane();
         contentPane.setLayout(new GridLayout(0,1));
 
 
-        score = new JLabel("Your Score is " +correctAnsCounter,SwingConstants.CENTER); //Initializing num1Label
+        score = new JLabel("Your Score is " + UserScore, SwingConstants.CENTER); //Initializing num1Label
         score.setFont(score.getFont().deriveFont(32f));
         contentPane.add(score);
         //score.setBounds(20,20,100,100);

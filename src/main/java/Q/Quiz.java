@@ -28,7 +28,7 @@ public class Quiz extends JFrame implements ActionListener {
     JLabel Score;
     int counter = 0;
     ArrayList<Problem> probList = new ArrayList<Problem>();
-    public static int correctAnsCounter=0;
+    int correctAnsCounter=0;
     int questionCount=1;
 
 
@@ -179,7 +179,7 @@ public class Quiz extends JFrame implements ActionListener {
 
     public void endScreen() {
         setVisible(false);
-        new End();
+        new End(correctAnsCounter);
 
     }
 
